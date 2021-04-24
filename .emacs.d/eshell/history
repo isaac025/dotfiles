@@ -1,0 +1,28 @@
+ls
+clear
+cd ..
+clear
+clear
+ls
+cd
+ls
+cd Desktop/
+ls
+ls PDFs/
+clear
+cd ..
+find . -name "*.pdf"
+find . -type f -name "*.pdf"
+cd Downloads/
+ls
+clear
+ls
+cd ..
+clear
+exit
+cd ..
+stack
+stack ghci
+cd ..
+ls .stack/
+exit
