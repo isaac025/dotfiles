@@ -1,4 +1,10 @@
 
+# Dotfiles! This is for Debian
+Please check out for Gentoo and/or Arch based on [Axarva's Repo](https://github.com/Axarva/dotfiles-2.0)
+[Image1](screenshot1.png)
+[Image2](screenshot2.png)
+
+
 # Table of Contents
 
 1.  [Debian Image **For me only**](#orgc99c82b)
