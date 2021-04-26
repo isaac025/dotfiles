@@ -155,13 +155,9 @@ Add the sources list:
 
 ## Basic XMonad config
 
-    echo "import XMonad
-    import XMonad.Config.Desktop
-    main = xmonad defaultConfig
-          { modMask = mod4Mask
-          , terminal = \"kitty\"
-          }" >> .xmonad/xmonad.hs 
-
+    mkdir .xmonad
+    cp dotfiles/xmonad.hs ~/.xmonad/
+    xmonad --recompile
 
 <a id="org721a24f"></a>
 
@@ -184,15 +180,6 @@ Add the sources list:
 
 <a id="org440ba44"></a>
 
-## Candy icons
-
-    git clone https://github.com/EliverLara/candy-icons
-    mkdir .themes
-    mv candy-icons .themes
-
-
-<a id="orgfa88bf1"></a>
-
 ## Picom
 
     sudo apt-get install libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libxcb-glx0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libpcre3-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev libdbus-1-dev libconfg-dev uthash-dev libxcb-glx0-dev libxcb-present-dev libxcb-xinerama0-dev libxcb-render-util0-dev libxcb-image0-dev libxcb-damage0-dev libxcb-randr0-dev libxcb--dev xcb libxcb-sync-dev libxcb-composite0-dev libxcb-composite0-dev
@@ -201,25 +188,32 @@ Add the sources list:
     cd picom
     git submodule update --init --recursive
     meson --buildtype=release . build
-    sudo ninja -C build
+    ninja -C build
+    sudo ninja -C build install
 
 
 <a id="org0c6800b"></a>
 
 # Firefox
+    echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" | sudo tee /etc/apt/sources.list
+    sudo touch /etc/apt/sources.list.d/99pin-unstable
+    echo "Package: *
+    Pin: release a=stable
+    Pin-Priority: 900
 
-
-<a id="org5a91b4f"></a>
-
-## Instalation probably with macosx
-
-scp isaaclopez@MacOSX:~/Firefox.zip
-
-
+    Package: *
+    Pin release a=unstable
+    Pin-Priority: 10" | sudo tee /etc/apt/sources.list.d/99pin-unstable
+    
+    sudo apt update
+    sudo apt install -t unstable firefox
+    
 <a id="orgbe1eee7"></a>
 
 # Spotify
-
+    echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
+    sudo apt update
+    sudo apt install spotify-client
 
 <a id="orgd7d4c50"></a>
 
@@ -289,7 +283,8 @@ Here  is an example for emacs:
     sudo vi /usr/share/applications/emacs.desktop
 
 ****Go to Icon Line****
-E.g. *Icon=emacs* change to *Icon=/home/name\\./themes/candy-icons/apps/scalable/emacs.svg*
+E.g. *Icon=emacs* change to *Icon=/home/name\\./themes/candy-icons/apps/scalable/emacs.svg
+
 ****MIND THE ESCAPE SEQUENCE ON THE DOT****
 
 
