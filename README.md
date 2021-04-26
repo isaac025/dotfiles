@@ -3,6 +3,7 @@
 Please check out for Gentoo and/or Arch based on [Axarva's Repo](https://github.com/Axarva/dotfiles-2.0)
 ![Image1](screenshot1.png)
 ![Image2](screenshot2.png)
+![Image3](screenshot3.png)
 ![Image5](screenshot5.png)
 
 
