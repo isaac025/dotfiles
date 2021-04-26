@@ -1,1 +1,1 @@
-("~/.xmonad/" "~/Projects/Stream/election/" "~/.emacs.d/elpa/vterm-20210409.1558/")
+nil
