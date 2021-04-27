@@ -1,7 +1,7 @@
 
 # Dotfiles! This is for Debian
 Please check out for Gentoo and/or Arch based on [Axarva's Repo](https://github.com/Axarva/dotfiles-2.0)
-### Login (pic by [ly](https://github.com/nullgemm/ly)
+### Login (pic by [ly](https://github.com/nullgemm/ly))
 ![Ly](ly.png)
 ### Rest  of UI
 ![Image1](screenshot1.png)  ![Image2](screenshot2.png) ![Image3](screenshot3.png)
