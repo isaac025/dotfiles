@@ -5,7 +5,7 @@ Please check out for Gentoo and/or Arch based on [Axarva's Repo](https://github.
 ![Ly](ly.png)
 ### Rest  of UI
 ![Image1](screenshot1.png)  ![Image2](screenshot2.png) ![Image3](sidepanel.png)
-![EmacsStart](emacs_start.png) ![Emacs_Edit](emacs_editing.png)
+![Image4](centerpanel.png)![EmacsStart](emacs_start.png) ![Emacs_Edit](emacs_editing.png) 
 
 # Table of Contents
 
