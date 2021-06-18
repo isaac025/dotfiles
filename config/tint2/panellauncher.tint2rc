@@ -174,13 +174,19 @@ launcher_icon_theme = candy-icons
 launcher_icon_theme_override = 0
 startup_notifications = 1
 launcher_tooltip = 1
-launcher_item_app = /usr/share/applications/firefox.desktop
-launcher_item_app = /usr/share/applications/emacs.desktop
 launcher_item_app = /usr/share/applications/kitty.desktop
+launcher_item_app = /usr/share/applications/firefox.desktop
+launcher_item_app = /usr/share/applications/vim.desktop
 launcher_item_app = /usr/share/applications/discord.desktop
 launcher_item_app = /usr/share/spotify/spotify.desktop
 launcher_item_app = /usr/share/applications/qalculate-gtk.desktop
 launcher_item_app = /usr/share/applications/barrier.desktop
+launcher_item_app = /usr/share/applications/thunder.desktop
+launcher_item_app = /usr/share/applications/slack.desktop
+launcher_item_app = /usr/share/applications/element.desktop
+launcher_item_app = /usr/share/applications/obs.desktop
+launcher_item_app = /usr/share/applications/zoom.desktop
+
 
 #-------------------------------------
 # Clock
