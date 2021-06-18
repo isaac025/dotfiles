@@ -1,0 +1,57 @@
+conky.config = {
+	xinerama_head = 0,
+	alignment = 'bottom_left',
+	background = true,
+	color2 = 'bbbbbb',
+	cpu_avg_samples = 2,
+	default_color = '34bb99',
+	double_buffer = true,
+	font = 'SFNS Display:size=8',
+	draw_shades = false,
+	gap_x = 25,
+	gap_y = 25,
+	minimum_width = 200,
+	no_buffers = true,
+	own_window = true,
+	own_window_type = 'override',
+	own_window_transparent = true,
+	update_interval = 2.0,
+	use_xft = true,
+}
+
+conky.text = [[
+${color2}Switch to workspace 1-10 - ${color}mod+1-0
+${color2}Switch to workspace 11-20 - ${color}mod+Alt+1-0
+${color2}Send to workspace 1-10 - ${color}mod+Ctrl+1-0
+${color2}Send to workspace 11-20 - ${color}mod+Ctrl+Alt+1-0
+${color2}Change workspace output - ${color}mod+Ctrl+Shift+arrows
+${color2}Navigate workspaces - ${color}mod+Ctrl+arrows
+${color2}Kill focused - ${color}mod+Shift+q
+${color2}Split direction - ${color}mod+h/v/q
+${color2}Container layout - ${color}mod+s/w/e
+${color2}Sticky mode - ${color}mod+Shift+s
+${color2}Floating mode - ${color}mod+Shift+Space
+${color2}Center container - ${color}mod+c
+${color2}Change window appearance - ${color}mod+y/n
+${color2}Scratchpad - ${color}mod+u
+${color2}Open terminal - ${color}mod+Enter
+${color2}Rofi - ${color}mod+d
+${color2}Scripts - ${color}mod+Shift+d
+${color2}Bmenu - ${color}mod+Ctrl+b
+${color2}Morc menu - ${color}mod+z
+${color2}Notifications history - ${color}mod+Shift+n
+${color2}Dismiss notifications - ${color}mod+Shift+c
+${color2}Open browser - ${color}mod+F2
+${color2}Open file manager - ${color}mod+F3
+${color2}Open messaging - ${color}mod+F4
+${color2}Open mail - ${color}mod+F5
+${color2}Open music player - ${color}mod+F6
+${color2}Open RSS reader - ${color}mod+F7
+${color2}Open alsamixer - ${color}mod+Ctrl+m
+${color2}App switcher - ${color}mod+Tab
+${color2}Lock - ${color}mod+Escape
+${color2}Exit - ${color}mod+Shift+p
+
+${color2}Help - ${color}mod+Shift+h
+mod = <Super>
+]]
