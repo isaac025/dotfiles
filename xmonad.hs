@@ -6,34 +6,46 @@
 --
 -- Normally, you'd only override those defaults you care about.
 --
-import XMonad
-import XMonad.Layout.Fullscreen
-    ( fullscreenEventHook, fullscreenManageHook, fullscreenSupport, fullscreenFull )
-import Data.Monoid ()
-import System.Exit ()
-import XMonad.Util.SpawnOnce ( spawnOnce )
-import Graphics.X11.ExtraTypes.XF86 (xF86XK_AudioLowerVolume, xF86XK_AudioRaiseVolume, xF86XK_AudioMute, xF86XK_MonBrightnessDown, xF86XK_MonBrightnessUp, xF86XK_AudioPlay, xF86XK_AudioPrev, xF86XK_AudioNext)
-import XMonad.Hooks.EwmhDesktops ( ewmh )
-import Control.Monad ( join, when )
-import XMonad.Layout.NoBorders
-import XMonad.Hooks.ManageDocks
-    ( avoidStruts, docks, manageDocks, Direction2D(D, L, R, U) )
-import XMonad.Hooks.ManageHelpers ( doFullFloat, isFullscreen )
-import XMonad.Layout.Spacing ( spacingRaw, Border(Border) )
-import XMonad.Layout.Gaps
-    ( Direction2D(D, L, R, U),
-      gaps,
-      setGaps,
-      GapMessage(DecGap, ToggleGaps, IncGap) )
+import           Control.Monad                (join, when)
+import           Data.Monoid                  ()
+import           Graphics.X11.ExtraTypes.XF86 (xF86XK_AudioLowerVolume,
+                                               xF86XK_AudioMute,
+                                               xF86XK_AudioNext,
+                                               xF86XK_AudioPlay,
+                                               xF86XK_AudioPrev,
+                                               xF86XK_AudioRaiseVolume,
+                                               xF86XK_MonBrightnessDown,
+                                               xF86XK_MonBrightnessUp)
+import           System.Exit                  ()
+import           XMonad
+import           XMonad.Hooks.EwmhDesktops    (ewmh)
+import           XMonad.Hooks.ManageDocks     (Direction2D (D, L, R, U),
+                                               avoidStruts, docks, manageDocks)
+import           XMonad.Hooks.ManageHelpers   (doFullFloat, isFullscreen)
+import           XMonad.Layout.Fullscreen     (fullscreenEventHook,
+                                               fullscreenFull,
+                                               fullscreenManageHook,
+                                               fullscreenSupport)
+import           XMonad.Layout.Gaps           (Direction2D (D, L, R, U),
+                                               GapMessage (DecGap, IncGap, ToggleGaps),
+                                               gaps, setGaps)
+import           XMonad.Layout.NoBorders
+import           XMonad.Layout.Spacing        (Border (Border), spacingRaw)
+import           XMonad.Util.SpawnOnce        (spawnOnce)
 
-import qualified XMonad.StackSet as W
-import qualified Data.Map        as M
-import Data.Maybe (maybeToList)
+import qualified Data.Map                     as M
+import           Data.Maybe                   (maybeToList)
+import qualified XMonad.StackSet              as W
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
 myTerminal      = "kitty"
 
+myEditor :: String
+myEditor = myTerminal ++ " -e vim "    -- Sets vim as editor
+
+myBrowser :: String
+myBrowser = "firefox"
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = True
@@ -101,6 +113,11 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_p     ), spawn "~/bin/centerlaunch")
     , ((modm .|. shiftMask, xK_p     ), spawn "exec ~/bin/ewwclose")
 
+
+    -- launch vim
+    , ((modm,               xK_v     ), spawn myEditor)
+    , ((modm,               xK_f     ), spawn myBrowser)
+
     -- launch eww sidebar
     , ((modm,               xK_s     ), spawn "~/bin/sidebarlaunch")
     , ((modm .|. shiftMask, xK_s     ), spawn "exec ~/bin/ewwclose")
@@ -116,7 +133,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Brightness keys
     , ((0,                    xF86XK_MonBrightnessUp), spawn "brightnessctl s +10%")
     , ((0,                    xF86XK_MonBrightnessDown), spawn "brightnessctl s 10-%")
- 
+
     -- Screenshot
     , ((0,                    xK_Print), spawn "~/bin/maimcopy")
     , ((modm,                 xK_Print), spawn "~/bin/maimsave")
@@ -133,13 +150,13 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- GAPS!!!
     , ((modm .|. controlMask, xK_g), sendMessage $ ToggleGaps)               -- toggle all gaps
     , ((modm .|. shiftMask, xK_g), sendMessage $ setGaps [(L,30), (R,30), (U,40), (D,60)]) -- reset the GapSpec
-    
+
     , ((modm .|. controlMask, xK_t), sendMessage $ IncGap 10 L)              -- increment the left-hand gap
     , ((modm .|. shiftMask, xK_t     ), sendMessage $ DecGap 10 L)           -- decrement the left-hand gap
-    
+
     , ((modm .|. controlMask, xK_y), sendMessage $ IncGap 10 U)              -- increment the top gap
     , ((modm .|. shiftMask, xK_y     ), sendMessage $ DecGap 10 U)           -- decrement the top gap
-    
+
     , ((modm .|. controlMask, xK_u), sendMessage $ IncGap 10 D)              -- increment the bottom gap
     , ((modm .|. shiftMask, xK_u     ), sendMessage $ DecGap 10 D)           -- decrement the bottom gap
 
@@ -222,7 +239,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
     --
     [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
+        | (key, sc) <- zip [xK_w, xK_d, xK_r] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 
 
@@ -326,7 +343,7 @@ myStartupHook = do
   spawnOnce "exec ~/bin/eww daemon"
   spawn "xsetroot -cursor_name left_ptr"
   spawn "exec ~/bin/lock.sh"
-  spawnOnce "feh --bg-scale ~/wallpapers/yosemite-lowpoly.jpg"
+  spawnOnce "themeChanger"
   spawnOnce "picom -f"
   spawnOnce "greenclip daemon"
   spawnOnce "dunst"
@@ -360,7 +377,7 @@ defaults = def {
         mouseBindings      = myMouseBindings,
 
       -- hooks, layouts
-        manageHook = myManageHook, 
+        manageHook = myManageHook,
         layoutHook = gaps [(L,30), (R,30), (U,40), (D,60)] $ spacingRaw True (Border 10 10 10 10) True (Border 10 10 10 10) True $ smartBorders $ myLayout,
         handleEventHook    = myEventHook,
         logHook            = myLogHook,

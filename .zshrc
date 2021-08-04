@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH="$PATH:$HOME/bin"
+export PATH="/opt/swift-5.4.1/usr/bin:$PATH:$HOME/bin:$HOME/.local/bin"
 # Path to your oh-my-zsh installation.
 export ZSH="/home/isaac/.oh-my-zsh"
 
@@ -69,7 +69,7 @@ ZSH_THEME="isaac"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -99,3 +99,10 @@ colorscript random
 # Example aliases
 alias zshconfig="mate ~/.zshrc"
 alias ohmyzsh="mate ~/.oh-my-zsh"
+
+autoload -Uz compinit
+compinit
+# Completion for kitty
+kittyThemer
+kitty + complete setup zsh | source /dev/stdin
+

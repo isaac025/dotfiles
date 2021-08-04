@@ -1,25 +1,18 @@
 #!/bin/bash
-
 HOUR=$(date +%k)
-DAY_THEME=""
-NIGHT_THEME=""
 
-if [ $HOUR -ge 18 ] || [ $HOUR -le 4 ]; then
-	echo "font_family     	JetBrains Mono NL
-font_size 		13
-bold_font		auto
-italic_font		auto
-bold_italic_font	auto
-allow_remote_control yes" > /home/isaac/.config/kitty/kitty.conf
-	kitty @ set-colors -a -c "$HOME/.config/kitty/kitty-themes/themes/$NIGHT_THEME.conf"
-
-else
-	echo "font_family     	JetBrains Mono NL
-font_size 		13
-bold_font		auto
-italic_font		auto
-bold_italic_font	auto
-allow_remote_control 	yes" > /home/isaac/.config/kitty/kitty.conf
-	kitty @ set-colors -a -c "$HOME/.config/kitty/kitty-themes/themes/$DAY_THEME.conf"
-fi
+while true
+do
+    if [ $HOUR -gt 18 ] || [ $HOUR -lt 5 ] ; then
+        conky -c ~/.config/conky/conkyrc_top_dark
+        conky -c ~/.config/conky/conkyrc_bottom_dark
+        feh --bg-scale ~/wallpapers/debian_dark.png
+    else
+        conky -c ~/.config/conky/conkyrc_top_light
+        conky -c ~/.config/conky/conkyrc_bottom_light
+        feh --bg-scale ~/wallpapers/debian_light.png
+    fi
+    sleep 1200
+    killall -9 conky
+done
 
