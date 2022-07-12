@@ -1,5 +1,0 @@
-
-;
-$spotify:album:1kCHru7uhxBUdzkm4gzRQc	³£ßCÃáw@ øÚ˜„
-<
-%spotify:artist:7dGJo4pcD2V6oG8kP0tJRR	Ï¿x:Ãáw@ ÒÚ˜„
