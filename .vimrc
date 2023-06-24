@@ -3,6 +3,7 @@ set relativenumber
 set showmode
 set nowrap
 set tw=80
+" set colorcolumn=80
 set smartcase
 set smarttab
 set smartindent
@@ -37,25 +38,18 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-fugitive'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
-Plug 'ryanoasis/vim-devicons'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
 call plug#end()
 
-let g:airline_powerline_fonts = 1
-let g:airline_theme='tomorrow'
-
-colorscheme acme
 let mapleader = " "
 
 " Don't automatically indent on save, since vim's autoindent for haskell is buggy
 autocmd FileType haskell let b:autoformat_autoindent=0
 
-" Exit Vim if NERDTree is the only window remaining in the only tab.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" Disable COC Warning.
+let g:coc_disable_startup_warning = 1
 
 " KEY REMAPS
 """" INSERT 
@@ -71,11 +65,54 @@ nnoremap <Leader><Tab> :bn<CR>
 nnoremap <Leader><Backspace> :bp<CR>
 nnoremap <Leader>wd :bd<CR>
 
-nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTree<CR>
-nnoremap <C-f> :NERDTreeFind<CR>
-
 nmap <C-t> :TagbarToggle<CR>
+
+nmap <leader>d <Plug>(coc-definition)
+nmap <leader>t <Plug>(coc-type-definition)
+nmap <leader>r <Plug>(coc-references)
+nmap <leader>i <Plug>(coc-implementation)
+inoremap <silent><expr> <c-space> coc#refresh()
+
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+
+inoremap <Up> <Nop>
+inoremap <Down> <Nop>
+inoremap <Left> <Nop>
+inoremap <Right> <Nop>
+nnoremap <silent>t :call ShowDoc()<CR>
+
+inoremap <silent><expr> <Down>
+            \ coc#pum#visible() ? coc#pum#next(1) :
+            \ CheckBackspace() ? "\<Up>" :
+            \ coc#refresh()
+
+inoremap <silent><expr> <Up>
+            \ coc#pum#visible() ? coc#pum#prev(1) :
+            \ CheckTab() ? "\<Down>" :
+            \ coc#refresh()
+
+function! CheckTab() abort
+    let col = col('.') + 1
+    return !col || getLine('.')[col+1] =~# '\s'
+endfunction
+
+function! CheckBackspace() abort
+    let col = col('.') - 1
+    return !col || getLine('.')[col-1] =~# '\s'
+endfunction
+
+function! ShowDoc()
+    if CocAction('hasProvider','hover')
+        call CocActionAsync('doHover')
+    else
+        call feedkeys('t','in')
+    endif
+endfunction
+
+autocmd BufWritePost * silent call CocActionAsync('format')
 
 let g:ctrlp_root_markers = ['stack.yaml', '*.cabal']
 let g:ctrlp_working_path_mode = 'ra'
