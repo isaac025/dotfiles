@@ -1,0 +1,27 @@
+{
+    "languageserver": {
+        "haskell": {
+            "command": "haskell-language-server-wrapper",
+            "args": ["--lsp"],
+            "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml"],
+            "filetypes": ["haskell", "lhaskell"],
+            "initializationOptions": {
+                "languageServerHaskell": {
+                    "hlintOn": true,
+                    "maxNumberOfProblems": 10,
+                    "completionSnippetsOn": true
+                }
+            }, "settings": {
+                "haskell": {
+                    "checkParents": "CheckOnSave",
+                    "checkProject": true,
+                    "formattingProvider": "fourmolu",
+                    "formatOnSave": true,
+                    "tabSize": 4,
+                    "detectIndetation": false,
+                    "insertSpaces": true
+                }
+            }
+        }
+    }
+}
