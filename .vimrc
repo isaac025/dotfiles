@@ -3,11 +3,12 @@ set relativenumber
 set showmode
 set nowrap
 set tw=80
-" set colorcolumn=80
 set smartcase
 set smarttab
 set smartindent
 set autoindent
+set autoread
+set backspace=indent,eol,start
 set softtabstop=4
 set shiftwidth=4
 set expandtab
@@ -37,25 +38,32 @@ set splitbelow splitright
 call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-fugitive'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'majutsushi/tagbar'
+Plug 'tpope/vim-surround'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'm6vrm/gruber.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'edkolev/tmuxline.vim'
+Plug 'preservim/tagbar'
+Plug 'ctrlpvim/ctrlp.vim'
 
 call plug#end()
 
+
+" Customization
+colorscheme gruber
+let g:airline_powerline_fonts = 1
+
 let mapleader = " "
 
-" Don't automatically indent on save, since vim's autoindent for haskell is buggy
-autocmd FileType haskell let b:autoformat_autoindent=0
+" ********************
+" **** KEY REMAPS **** 
+" ********************
 
-" Disable COC Warning.
-let g:coc_disable_startup_warning = 1
-
-" KEY REMAPS
-"""" INSERT 
+" INSERT 
 :imap jj <Esc>
 
-"""" NORMAL 
+" NORMAL 
 nnoremap <Leader>wj <C-W><C-J>
 nnoremap <Leader>wk <C-W><C-K>
 nnoremap <Leader>wh <C-W><C-H>
@@ -64,100 +72,49 @@ nnoremap <Leader>. :Explore<CR>
 nnoremap <Leader><Tab> :bn<CR>
 nnoremap <Leader><Backspace> :bp<CR>
 nnoremap <Leader>wd :bd<CR>
-
-nmap <C-t> :TagbarToggle<CR>
-
-nmap <leader>d <Plug>(coc-definition)
-nmap <leader>t <Plug>(coc-type-definition)
-nmap <leader>r <Plug>(coc-references)
-nmap <leader>i <Plug>(coc-implementation)
-inoremap <silent><expr> <c-space> coc#refresh()
+nnoremap <Leader>d <Plug>(coc-definition)
+nnoremap <Leader>t <Plug>(coc-type-definition)
+nnoremap <Leader>p <Plug>(coc-diagnostic-prev)
+nnoremap <Leader>n <Plug>(coc-diagnostic-next)
+nnoremap <Leader>s :call ShowDoc()<CR>
 
 noremap <Up> <Nop>
 noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
+" DISABLED
 inoremap <Up> <Nop>
 inoremap <Down> <Nop>
 inoremap <Left> <Nop>
 inoremap <Right> <Nop>
-nnoremap <silent>t :call ShowDoc()<CR>
 
-inoremap <silent><expr> <Down>
-            \ coc#pum#visible() ? coc#pum#next(1) :
-            \ CheckBackspace() ? "\<Up>" :
-            \ coc#refresh()
+" *************** 
+" *** Plugins ***
+" *************** 
 
-inoremap <silent><expr> <Up>
-            \ coc#pum#visible() ? coc#pum#prev(1) :
-            \ CheckTab() ? "\<Down>" :
-            \ coc#refresh()
-
-function! CheckTab() abort
-    let col = col('.') + 1
-    return !col || getLine('.')[col+1] =~# '\s'
-endfunction
-
-function! CheckBackspace() abort
-    let col = col('.') - 1
-    return !col || getLine('.')[col-1] =~# '\s'
-endfunction
-
+" CoC
+autocmd BufWritePost *.hs call CocActionAsync('format')
 function! ShowDoc()
-    if CocAction('hasProvider','hover')
+    if CocAction('hasProvider', 'hover')
         call CocActionAsync('doHover')
     else
-        call feedkeys('t','in')
+        call feedkeys('s', 'in')
     endif
 endfunction
 
-autocmd BufWritePost * silent call CocActionAsync('format')
+" Tagbar
+nnoremap <Leader>tt :TagbarToggle<CR>
+nnoremap gj :TagbarJump<CR>
+nnoremap gn :TagbarJumpNext<CR>
+let g:tagbar_map_showproto = 'p'
+let g:tagbar_map_close = '<space>wd'
+let g:tagbar_autofocus = 1
+let g:tagbar_show_data_type = 1
 
-let g:ctrlp_root_markers = ['stack.yaml', '*.cabal']
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_user_command = 'find %s -type f'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
+" Fugitive
+nnoremap <Leader>ga :Git add<CR>
+nnoremap <Leader>gc :Git commit<CR>
 
-let g:tagbar_type_haskell = {
-    \ 'ctagsbin'  : 'hasktags',
-    \ 'ctagsargs' : '-x -c -o-',
-    \ 'kinds'     : [
-        \  'm:modules:0:1',
-        \  'd:data: 0:1',
-        \  'd_gadt: data gadt:0:1',
-        \  't:type names:0:1',
-        \  'nt:new types:0:1',
-        \  'c:classes:0:1',
-        \  'cons:constructors:1:1',
-        \  'c_gadt:constructor gadt:1:1',
-        \  'c_a:constructor accessors:1:1',
-        \  'ft:function types:1:1',
-        \  'fi:function implementations:0:1',
-        \  'i:instance:0:1',
-        \  'o:others:0:1'
-    \ ],
-    \ 'sro'        : '.',
-    \ 'kind2scope' : {
-        \ 'm' : 'module',
-        \ 'c' : 'class',
-        \ 'd' : 'data',
-        \ 't' : 'type',
-        \ 'i' : 'instance'
-    \ },
-    \ 'scope2kind' : {
-        \ 'module'   : 'm',
-        \ 'class'    : 'c',
-        \ 'data'     : 'd',
-        \ 'type'     : 't',
-        \ 'instance' : 'i'
-    \ }
-\ }
+" CTRLP
+let g:ctrlp_map = '<space>f'
