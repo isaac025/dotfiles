@@ -40,7 +40,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'm6vrm/gruber.vim'
+Plug 'jaredgorski/spacecamp'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
@@ -51,7 +51,8 @@ Plug 'kovisoft/slimv'
 call plug#end()
 
 " Customization
-colorscheme gruber
+colorscheme spacecamp
+let g:airline_theme = 'violet'
 let g:airline_powerline_fonts = 1
 
 let mapleader = " "
