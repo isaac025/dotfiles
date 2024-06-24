@@ -45,10 +45,10 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
 Plug 'preservim/tagbar'
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'kovisoft/slimv'
+" Plug 'ctrlpvim/ctrlp.vim'
 
 call plug#end()
-
 
 " Customization
 colorscheme gruber
@@ -115,6 +115,5 @@ let g:tagbar_show_data_type = 1
 " Fugitive
 nnoremap <Leader>ga :Git add<CR>
 nnoremap <Leader>gc :Git commit<CR>
-
-" CTRLP
-let g:ctrlp_map = '<space>f'
+nnoremap <Leader>gp :Git pull origin main<CR>
+nnoremap <Leader>gs :Git status<CR>
